@@ -5,7 +5,7 @@ class SmsController < ApplicationController
 
   def create
     byebug
-    api = RestClient.new("MAMWU1M2FKMZCXMWUZOG", "OGU1NmY4YzlmOWNiNDVhZDU1MGQzZDhjNmMyYWE0")
+    api = RestClient.new({auth_id}, {auth_token})
     response = api.messages.create(
       '+17753767759', #from
       ["+15127675225"], #to
@@ -17,10 +17,15 @@ class SmsController < ApplicationController
     puts response.message_uuid
   end
 
-  private 
-
-  def sms_params
+  def index
+    api = RestClient.new({auth_id}, {auth_token})
+    response = api.messages.list(
+      # limit: 5,
+      offset: 0,
+      # subaccount: "subaccount_auth_id",
+    )
     byebug
-    params.require(:sm).permit(:message)
+    puts response
+
   end
 end
